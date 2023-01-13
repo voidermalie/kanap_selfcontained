@@ -8,7 +8,7 @@ const displayProducts = (data) => {
     data.forEach(product => {
         //link
         const a = document.createElement('a');
-        const productLink = window.location.href + '/product.html?id=' + product._id;
+        const productLink = 'http://127.0.0.1:5500/front/html/product.html?id=' + product._id;
         a.href = productLink;
         productDiv.appendChild(a);
         //article (card)
@@ -18,7 +18,7 @@ const displayProducts = (data) => {
         const title = document.createElement('h3')
         const productName = product.name
         article.appendChild(title);
-        title.textContent = product.name;
+        title.textContent = productName;
         //image
         const img = document.createElement('img')
         const productImage = product.imageUrl;
@@ -28,13 +28,12 @@ const displayProducts = (data) => {
         //description
         const p = document.createElement('p');
         const productDescription = product.description;
-        p.textContent = product.description;
+        p.textContent = productDescription;
         article.appendChild(p);
     })
 };
 
 displayProducts(products);
 
-//returns product on product page
-//contact, order
+//why is it in the end
 

@@ -18,7 +18,14 @@ const request = async (path = '') => {
     .catch((error) => console.error("FETCH ERROR:", error));
 };
 
-//function to get product page url
+//functions to get data from api
+
+//homepage
+export const getProducts = async () => {
+    return await request();
+};
+
+//product page
 export const getProduct = async () => {
     
     let params = new URL(document.location).searchParams;
@@ -26,7 +33,4 @@ export const getProduct = async () => {
     return await request(id);
 };
 
-export const getProducts = async () => {
-    return await request();
-};
 

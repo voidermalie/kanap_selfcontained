@@ -1,5 +1,6 @@
 //function to get product page url
 import { getProduct } from "./api.js";
+const product = await getProduct();
 
 //function for rendering to html 
 const displayProduct = (product) => {
@@ -12,7 +13,25 @@ const displayProduct = (product) => {
         imageContainer[0].appendChild(img);
         let productImage = product.imageUrl;
         img.src = productImage;
-};
+        img.alt = product.altTxt;        
+        //price
+        const price = document.getElementById('price');
+        price.textContent = product.price;
+        //description
+        const description = document.getElementById('description');
+        description.textContent = product.description;
+        //colors
+        const colorContainer = document.getElementById('colors');
+        const colorOptions = product.colors;
+        const getColors = (colors) => {
+                colors.forEach(color => {
+                        const colorOption = document.createElement('option');
+                        colorOption.text = color;
+                        colorContainer.add(colorOption);
 
-const product = await getProduct();
+                });
+        }
+        getColors(colorOptions);
+};
+//SIKERUUUUUUUUUUUULT :))))))))))yayyayayayayayayayayay
 displayProduct(product);
