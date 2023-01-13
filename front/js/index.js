@@ -1,20 +1,5 @@
-//info to reach API
-const indexUrl = 'http://localhost:3000/API/products';
-
-// fetch API
-fetch(indexUrl)
-.then(response => {
-    if (response.ok) {
-        return response.json();
-    } else {
-        throw new Error ('Request failed!');
-    }
-})
-.then(data => {
-    console.log(data);
-    displayProducts(data);
-})
-.catch((error) => console.error("FETCH ERROR:", error));
+import { getProducts } from "./api.js";
+const products = await getProducts();
 
 
 //function for rendering to html (a,article,h3,img,p)
@@ -48,23 +33,8 @@ const displayProducts = (data) => {
     })
 };
 
-const getProduct = (data) => {
-    data.forEach(product => {
-        /*
-        const productLink = 'http://127.0.0.1:5500/front/html/product.html?id=' + product._id;
-        a.href = productLink;
-        */
-        //const indexLink = 'http://127.0.0.1:5500/front/html';
-
-       let indexLink = window.location.href;
-       let productLink = indexLink + '/product.html?id=' + product._id;
-       let url = new URL(productLink);
-       let productPage = url.searchParams.get('productPage');
-       a.href = productPage;
-    })
-}
+displayProducts(products);
 
 //returns product on product page
 //contact, order
-//nouveau fichier js ou ici?
 
