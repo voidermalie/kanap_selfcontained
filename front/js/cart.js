@@ -7,27 +7,34 @@ const getCart = () => {
     }
 };
 getCart();
+
 let products = JSON.parse(localStorage.getItem('products'));
 
 //function render HTML template
 const makeCartHtmlTemplate = (cart) => {
     const templates = [];
-    let cartItems = document.querySelector('#cart__items');
+    let cartItem = document.querySelector('#cart__items');
     cart.forEach(cartItem => {
 
     });
 };
 
 //display cart in localStorage
-const displayCart = () => {
+const displayCart = (cart) => {
     products.forEach(products => {
         //render to HTML
+        //article -> 2 divs => div1=img + div2=cartItemContent
+        //cartItemContent -> 2 divs => div1=description + div2=settings
+        //description -> h2 (productName), p (color), p (price)
+        //settings -> 2 divs => div1=quantity(p, input) + div2=delete(p)
         const article = document.createElement('article');
-        cartItems.appendChild(article);
+        cartItem.appendChild(article);
         article.classList.add('cart__item');
+        //img
         const imgDiv = document.createElement('div');
         article.appendChild(imgDiv);
         imgDiv = productImage;
+        //cartItemContent
         const itemDiv = document.createElement('div');
         article.appendChild(itemDiv);
         itemDiv.classList.add('cart__item__content');
@@ -39,4 +46,4 @@ const displayCart = () => {
         productName.textContent = products['_name'];
     });
 };
-displayCart();
+displayCart(cart);
