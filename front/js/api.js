@@ -33,4 +33,10 @@ export const getProduct = async () => {
     return await request(id);
 };
 
-
+/*
+//cart
+export const getCart = async () => {
+    let cart = 
+    return await request();
+};
+*/

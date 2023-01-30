@@ -34,6 +34,3 @@ const displayProducts = (data) => {
 };
 
 displayProducts(products);
-
-//why is it in the end
-
