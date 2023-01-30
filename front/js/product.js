@@ -83,7 +83,7 @@ const handleClick = (event) => {
                 img: product.img,
                 color: color,
                 quantity: input,
-                price: product.price * input
+                //price: product.price * productOption.quantity 
         };
         //3. add to Cart
         if (color === '' && input == 0) {

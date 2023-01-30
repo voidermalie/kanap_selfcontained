@@ -6,6 +6,7 @@ const getCart = () => {
         return JSON.parse(cart)
     }
 };
+getCart();
 let products = JSON.parse(localStorage.getItem('products'));
 
 //function render HTML template
@@ -38,3 +39,4 @@ const displayCart = () => {
         productName.textContent = products['_name'];
     });
 };
+displayCart();
