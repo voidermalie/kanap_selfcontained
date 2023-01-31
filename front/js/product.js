@@ -43,12 +43,12 @@ displayProduct(product);
 
 //--------------------------------GESTION DU PANIER--------------------------------------------
 
-//(function) response to Add to Cart button
+// => response to "Add to Cart" button
 const handleClick = (event) => {
-        //1. put user choices in variables
+        //1. PUT user choices in variables
         const input = document.querySelector('#quantity').value;
         const color = document.querySelector('#colors').value;
-        //2. create product (project requires only: id, quantity, color)
+        //2. CREATE product (project requires only: id, quantity, color)
         let productOption = {
                 _id: product.id,
                 _name: product.name,
@@ -57,7 +57,7 @@ const handleClick = (event) => {
                 quantity: input,
                 //price: product.price * productOption.quantity 
         };
-        //3. add to Cart
+        //3. ADD to Cart
         if (color === '' && input == 0) {
                 alert('Merci de sélectionner un produit');
         }else if (color === '') {
@@ -71,11 +71,12 @@ const handleClick = (event) => {
 
 //get button
 const addToCartBtn = document.querySelector('#addToCart');
+//event listener
 addToCartBtn.addEventListener('click', handleClick);
 
 //----------------LOCALSTORAGE---------------------------------------------------------------
 
-//(function) save product to localStorage
+//(function) => save product to localStorage
 const addItemToCart = (productOption) => {
         //read localStorage and get cart
         let cart = localStorage.getItem('cart');
