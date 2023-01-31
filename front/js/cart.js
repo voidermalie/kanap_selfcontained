@@ -33,6 +33,7 @@ const displayCart = (cart) => {
         //img
         const imgDiv = document.createElement('div');
         article.appendChild(imgDiv);
+        let productImage = product.imageUrl;
         imgDiv = productImage;
         //cartItemContent
         const itemDiv = document.createElement('div');

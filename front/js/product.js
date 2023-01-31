@@ -46,7 +46,6 @@ displayProduct(product);
 //(function) response to Add to Cart button
 const handleClick = (event) => {
         //1. put user choices in variables
-        //Q: scope stops working when I want them as global variables
         const input = document.querySelector('#quantity').value;
         const color = document.querySelector('#colors').value;
         //2. create product (project requires only: id, quantity, color)
@@ -71,8 +70,8 @@ const handleClick = (event) => {
 };
 
 //get button
-const addToCartBtn = document.querySelector("#addToCart");
-addToCartBtn.addEventListener("click", handleClick);
+const addToCartBtn = document.querySelector('#addToCart');
+addToCartBtn.addEventListener('click', handleClick);
 
 //----------------LOCALSTORAGE---------------------------------------------------------------
 
@@ -81,14 +80,14 @@ const addItemToCart = (productOption) => {
         //read localStorage and get cart
         let cart = localStorage.getItem('cart');
         if (cart) {
-        //if cart = true = already exists, get the list of products from it
+        //if cart = true = already exists, get the list of products from it (.products=key)
                 let products = JSON.parse(cart).products
                 /*product of same color already in basket=>increase quantity and add to cart
                 otherwise: add to cart*/
                 products.forEach(product => {
                         //(A)
-                        if (product.id == productOption.id) {
-                            if (product.color == productOption.color)
+                        if (product.id === productOption.id) {
+                            if (product.color === productOption.color)
                                 product.quantity ++
                         }
                         //(B)
@@ -100,5 +99,5 @@ const addItemToCart = (productOption) => {
                 cart = {'products':[productOption]};
 };
         //add to localStorage?
-        localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem('cart', JSON.stringify(cart));
 };
