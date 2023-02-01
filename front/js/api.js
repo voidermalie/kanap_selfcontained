@@ -6,9 +6,9 @@ const request = async (path = '') => {
     return await fetch(indexUrl + path)
         .then(response => {
             if (response.ok) {
-            return response.json();
+                return response.json();
             } else {
-            throw new Error ('Request failed!');
+                throw new Error ('Request failed!');
             }
     })
     .then(data => {
@@ -27,16 +27,7 @@ export const getProducts = async () => {
 
 //product page
 export const getProduct = async () => {
-    
     let params = new URL(document.location).searchParams;
     let id = params.get('id');
     return await request(id);
 };
-
-/*
-//cart
-export const getCart = async () => {
-    let cart = 
-    return await request();
-};
-*/

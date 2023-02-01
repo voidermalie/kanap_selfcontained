@@ -55,7 +55,7 @@ const handleClick = (event) => {
                 img: product.img,
                 color: color,
                 quantity: input,
-                //price: product.price * productOption.quantity 
+                price: parseInt(product.price) * parseInt(input)
         };
         //3. ADD to Cart
         if (color === '' && input == 0) {
@@ -71,34 +71,34 @@ const handleClick = (event) => {
 
 //get button
 const addToCartBtn = document.querySelector('#addToCart');
-//event listener
 addToCartBtn.addEventListener('click', handleClick);
 
 //----------------LOCALSTORAGE---------------------------------------------------------------
 
 //(function) => save product to localStorage
 const addItemToCart = (productOption) => {
-        //read localStorage and get cart
         let cart = localStorage.getItem('cart');
         if (cart) {
-        //if cart = true = already exists, get the list of products from it (.products=key)
                 let products = JSON.parse(cart).products
-                /*product of same color already in basket=>increase quantity and add to cart
-                otherwise: add to cart*/
+                let match = false;
                 products.forEach(product => {
-                        //(A)
-                        if (product.id === productOption.id) {
-                            if (product.color === productOption.color)
-                                product.quantity ++
-                        }
-                        //(B)
+                        if (product.id === productOption.id && product.color === productOption.color) {
+                                let q = parseInt(product.quantity) + parseInt(productOption.quantity)
+                                product.quantity = q;
+                                let p = q * parseInt(productOption.price);
+                                product.price = p;
+                                match = true;
+                        };
+                }    
+                );
+                //(match === false) is true
+                if (!match) {
                         products.push(productOption);
-                });
-                //save to localStorage
+                };
                 cart = {'products': products};
         } else {
                 cart = {'products':[productOption]};
 };
-        //add to localStorage?
+        //add to localStorage
         localStorage.setItem('cart', JSON.stringify(cart));
 };
