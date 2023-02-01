@@ -46,23 +46,23 @@ displayProduct(product);
 // => response to "Add to Cart" button
 const handleClick = (event) => {
         //1. PUT user choices in variables
-        const input = document.querySelector('#quantity').value;
+        const quantity = document.querySelector('#quantity').value;
         const color = document.querySelector('#colors').value;
         //2. CREATE product (project requires only: id, quantity, color)
         let productOption = {
-                _id: product.id,
+                _id: product._id,
                 _name: product.name,
-                img: product.img,
+                img: product.imageUrl,
                 color: color,
-                quantity: input,
-                price: parseInt(product.price) * parseInt(input)
+                quantity: quantity,
+                price: parseInt(product.price) * parseInt(quantity)
         };
         //3. ADD to Cart
-        if (color === '' && input == 0) {
+        if (color === '' && quantity == 0) {
                 alert('Merci de sélectionner un produit');
         }else if (color === '') {
                 alert('Merci de sélectionner une couleur');
-        }else if (input == 0) {
+        }else if (quantity == 0) {
                 alert("Merci d'ajouter une quantité");
         }else { 
                 addItemToCart(productOption)
@@ -77,12 +77,13 @@ addToCartBtn.addEventListener('click', handleClick);
 
 //(function) => save product to localStorage
 const addItemToCart = (productOption) => {
+        console.log("Produit: ", productOption);
         let cart = localStorage.getItem('cart');
         if (cart) {
                 let products = JSON.parse(cart).products
                 let match = false;
                 products.forEach(product => {
-                        if (product.id === productOption.id && product.color === productOption.color) {
+                        if (product.id === productOption._id && product.color === productOption.color) {
                                 let q = parseInt(product.quantity) + parseInt(productOption.quantity)
                                 product.quantity = q;
                                 let p = q * parseInt(productOption.price);
@@ -95,7 +96,7 @@ const addItemToCart = (productOption) => {
                 if (!match) {
                         products.push(productOption);
                 };
-                cart = {'products': products};
+                cart = {'products': products};  // products = [...]  liste de tous les produits
         } else {
                 cart = {'products':[productOption]};
 };
