@@ -6,9 +6,9 @@ const product = await getProduct();
 const makeColorHtmlTemplate = (colors) => {
         const templates = [];
         colors.forEach(color => {
-                const colorOption = document.createElement('option');
-                colorOption.text = color;
-                templates.push(colorOption);
+                const $colorOption = document.createElement('option');
+                $colorOption.text = color;
+                templates.push($colorOption);
         });
         return templates;
 };
@@ -16,26 +16,25 @@ const makeColorHtmlTemplate = (colors) => {
 //function for rendering to html
 const displayProduct = (product) => {
         //title of html page
-        const pageTitle = document.getElementsByTagName('title');
-        pageTitle[0].textContent = product.name;
+        const $pageTitle = document.getElementsByTagName('title');
+        $pageTitle[0].textContent = product.name;
         //image
-        const imageContainer = document.getElementsByClassName('item__img');
-        const img = document.createElement('img');
-        imageContainer[0].appendChild(img);
-        let productImage = product.imageUrl;
-        img.src = productImage;
-        img.alt = product.altTxt;        
+        const $imageContainer = document.getElementsByClassName('item__img');
+        const $img = document.createElement('img');
+        $imageContainer[0].appendChild($img);
+        $img.src = product.imageUrl;
+        $img.alt = product.altTxt;        
         //price
-        const price = document.getElementById('price');
-        price.textContent = product.price;
+        const $price = document.getElementById('price');
+        $price.textContent = product.price;
         //description
-        const description = document.getElementById('description');
-        description.textContent = product.description;
+        const $description = document.getElementById('description');
+        $description.textContent = product.description;
         //colors
-        const colorContainer = document.getElementById('colors');
+        const $colorContainer = document.getElementById('colors');
         const productColors = product.colors;
         const templates = makeColorHtmlTemplate(productColors);
-        templates.forEach(t => {colorContainer.appendChild(t)});
+        templates.forEach(t => {$colorContainer.appendChild(t)});
 };
 
 //calling function to display product
@@ -53,9 +52,10 @@ const handleClick = (event) => {
                 _id: product._id,
                 _name: product.name,
                 img: product.imageUrl,
+                altTxt: product.altTxt,
                 color: color,
                 quantity: quantity,
-                price: parseInt(product.price) * parseInt(quantity)
+                //price: parseInt(product.price) * parseInt(quantity)
         };
         //3. ADD to Cart
         if (color === '' && quantity == 0) {
@@ -64,6 +64,8 @@ const handleClick = (event) => {
                 alert('Merci de sélectionner une couleur');
         }else if (quantity == 0) {
                 alert("Merci d'ajouter une quantité");
+        }else if (quantity < 1 || quantity > 100) {
+                alert('Merci de choisir une quantité entre 1 et 100');
         }else { 
                 addItemToCart(productOption)
         };
@@ -74,20 +76,21 @@ const addToCartBtn = document.querySelector('#addToCart');
 addToCartBtn.addEventListener('click', handleClick);
 
 //----------------LOCALSTORAGE---------------------------------------------------------------
-
 //(function) => save product to localStorage
 const addItemToCart = (productOption) => {
-        console.log("Produit: ", productOption);
+        //test: console.log("Produit: ", productOption);
         let cart = localStorage.getItem('cart');
         if (cart) {
                 let products = JSON.parse(cart).products
                 let match = false;
                 products.forEach(product => {
-                        if (product.id === productOption._id && product.color === productOption.color) {
+                        if (product._id === productOption._id && product.color === productOption.color) {
                                 let q = parseInt(product.quantity) + parseInt(productOption.quantity)
                                 product.quantity = q;
+                                /*
                                 let p = q * parseInt(productOption.price);
                                 product.price = p;
+                                */
                                 match = true;
                         };
                 }    

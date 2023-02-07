@@ -12,7 +12,7 @@ const request = async (path = '') => {
             }
     })
     .then(data => {
-        console.log(data);
+        //console.log(data);
         return data;
     })
     .catch((error) => console.error("FETCH ERROR:", error));
