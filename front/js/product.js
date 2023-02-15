@@ -2,7 +2,7 @@
 import { getProduct } from "./api.js";
 const product = await getProduct();
 
-/*
+
 //function to create HTML for color options
 const makeColorHtmlTemplate = (colors) => {
         const templates = [];
@@ -13,7 +13,7 @@ const makeColorHtmlTemplate = (colors) => {
         });
         return templates;
 };
-*/
+
 
 //function for rendering to html
 const displayProduct = (product) => {
@@ -35,6 +35,7 @@ const displayProduct = (product) => {
         //colors
         const colorContainer = document.getElementById('colors');
         const colorOptions = product.colors;
+        /*
         const getColors = (colors) => {
                 colors.forEach(color => {
                         const colorOption = document.createElement('option');
@@ -43,17 +44,14 @@ const displayProduct = (product) => {
                 });
         };
         getColors(colorOptions);
-};
-        /*F:
+        */
         const $colorContainer = document.getElementById('colors');
         const productColors = product.colors;
         const templates = makeColorHtmlTemplate(productColors);
         templates.forEach(t => {$colorContainer.appendChild(t)});
 };
-        */
-
-
-//calling function to display product
+        
+//Calling function to display product
 displayProduct(product);
 
 //--------------------------------GESTION DU PANIER--------------------------------------------
