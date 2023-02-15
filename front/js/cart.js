@@ -1,6 +1,6 @@
 //get all products from API
 import { getProducts } from "./api.js";
-let productsApi = await getProducts();
+const productsApi = await getProducts();
 
 //get cart from LocalStorage
 const getCart = () => {
@@ -12,47 +12,22 @@ const getCart = () => {
     }
 };
 
-//1. we have two arrays
-//1st array = localStorage = cart = [{},{},{} ...]
+//We have 2 arrays = localstorage and products from API
+//cart = [{},{},{} ...]
 let cart = getCart(); 
 console.log(cart);
-//2nd array = all products = productsApi = [{product}, {product}, ...]
+//productsApi = [{product}, {product}, ...]
 console.log(productsApi);
+//how to get object.property = console.log(productsApi[0].price)
 
-//how to get object.property
-// console.log(productsApi[0].price)
-
-//2. get price  = extract object property value from array
-/*
-const getPrice = (products) => {
-    //for (let i = 0; i < products.lenght; i++);
-    products.forEach(product => {
-    let price = product[i].price;
-    });
-};
-getPrice(productsApi);
-console.log(price)
-
-
-productsApi.forEach(productApi => {
-    let price = productApi.price;
-});
-
-//for each product from cart array, add price property equal to productsAPI price
-cart.forEach(product => {
-    product.price = productsApi.price;
-    //console.log(product.price)
-});
-*/
-
-//Frédéric:
+//Get price from API, update objects
 const getPricesForProducts = (products) => {
     //let productsAPI = getProducts()
     products.forEach(product => {
-        // trouve le produit retourné par l'API
-        // ajoute le prix du produit dans l'objet
-        let productApi = productsApi.find(p => p._id === product._id)
-        product.price = productApi.price
+        // find product from API
+        // add product price to the object
+        let productApi = productsApi.find(p => p._id === product._id) //fonction qui retourne vrai si l'id est meme
+        product.price = productApi.price;
     });
     return products
 };
@@ -61,6 +36,7 @@ let products = getPricesForProducts(cart);
 
 
 // -----------------------------Display a list of products on the page----------------------------
+
 //(products) is a property, then when we call the function later, we pass (cart) as an argument
 //well now we pass (products) again because of getpricesforproducts...
 const displayCart = (products) => {
@@ -101,7 +77,7 @@ const displayCart = (products) => {
         $descriptionDiv.appendChild($productColor);
         //p (price)
         const $productPrice = document.createElement('p');
-        $productPrice.textContent = `${product.price} €`; //?????
+        $productPrice.textContent = `${product.price} €`;
         $descriptionDiv.appendChild($productPrice);
         //div2
         const $settingsDiv = document.createElement('div');
@@ -115,7 +91,7 @@ const displayCart = (products) => {
         const $quantityItem = document.createElement('p');
         $quantityItem.textContent = 'Qté :';
         $quantityDiv.appendChild($quantityItem);
-        //$quantityItem.textContent = `Qté : ${product.quantity}`;
+        //avant: $quantityItem.textContent = `Qté : ${product.quantity}`;
         //<input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
         const $input = document.createElement('input');
         $input.type = 'number';
@@ -125,7 +101,7 @@ const displayCart = (products) => {
         $input.max = '100';
         $input.value = product.quantity;
         $quantityDiv.appendChild($input);
-        // console.log(product.price);
+        //console.log(product.price);
         //settings-div2
         const $deleteDiv = document.createElement('div');
         $deleteDiv.classList.add('cart__item__content__settings__delete');
@@ -147,33 +123,220 @@ displayCart(products);
 //-------------------------------------MODIFY CART------------------------------------------------
 
 //----------------------------------CHANGE QUANTITY-----------------------------------------------
+
 const updateQuantity = (event) => {
-//if (this.value)
+    let $input = event.target;
+
+    //Get ID of product to be updated. Access the 'data-id' attribute of the input field's parent element
+    const idToUpdate = $input.closest('article');
+    let itemId = idToUpdate.getAttribute('data-id');
+    let itemColor = idToUpdate.getAttribute('data-color');
+
+    //Get the updated quantity from the input field's value.
+    let updatedQuantity = parseInt($input.value);
+
+    //Retrieve cart from LS, parse data as JS object // OR empty object
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+    //Retrieve the products array from the cart data // OR empty array
+    let products = cart.products || [];
+
+    //Find product in cart and update its quantity - check for both id and color
+    let existingProduct = products.find(product => product._id === itemId && product.color === itemColor);
+    if (existingProduct) {
+        existingProduct.quantity = updatedQuantity;
+    };
+
+    //Update the products array in the cart
+    cart.products = products;
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    //Update the total quantity and price
+    updateCartTotal();
 };
 
-
-const $itemQuantity = document.querySelector('.itemQuantity');
-$itemQuantity.addEventListener('change', updateQuantity);
-
+//Add event listener to each input field
+const $itemQuantity = document.querySelectorAll('.itemQuantity');
+$itemQuantity.forEach(input => {
+    input.addEventListener('change', updateQuantity);
+});
 
 
 //--------------------------------------REMOVE ITEM-----------------------------------------------
+//Function to delete item from cart and to delete item's HTML      
+const removeItem = (event) => {
+    let deleteBtn = event.target;
+    const idToRemove = deleteBtn.closest('article');
+  
+    // extract id + color of the item to remove
+    const itemId = idToRemove.getAttribute('data-id');
+    const itemColor = idToRemove.getAttribute('data-color');
 
-//     delete item from cart          and          delete html display      
+    // remove the item from the cart
+    //cart.forEach(item => {console.log((item._id == itemId) && (item.color == itemColor), item._id, itemId, item.color, itemColor)});
+    cart = cart.filter(item => item._id !== itemId || item.color !== itemColor);
 
-const handleClick = (event) => {
-    window.localStorage.removeItem('product')
-    //and
-    //model: (`[data-id="box1"]`)
-    let $itemToDelete = document.querySelector(`[data-id="${this._id}"]`);
+    // update localStorage (convert JS object to a string)(value = object w/ a single property "products", that contains the cart array)
+    localStorage.setItem('cart', JSON.stringify({'products': cart}));
+  
+    // remove the item's HTML from the page
+    idToRemove.style.display = 'none';
+
+    //Update the total quantity and price
+    updateCartTotal();
 };
 
-const $deleteBtn = document.querySelector('.deleteItem');
-$deleteBtn.addEventListener('click', handleClick);
+//Add event listener to each Delete button
+const $deleteBtn = document.querySelectorAll('.deleteItem');
+
+$deleteBtn.forEach(button => {
+    button.addEventListener('click', removeItem);
+});
 
 //---------------------------CALCULATE TOTAL QUANTITY & PRICE-------------------------------------------------
-//guess can't do before treating quantity change
-//lenght of cart = total quantity
 
-const $totalQuantity = document.querySelector('#totalQuantity');
-const $totalPrice = document.querySelector('#totalPrice');
+// Total quantity and price function
+const updateCartTotal = () => {
+    const $totalQuantity = document.querySelector('#totalQuantity');
+    const $totalPrice = document.querySelector('#totalPrice');
+  
+    // Retrieve the cart from localStorage
+    const cart = JSON.parse(localStorage.getItem('cart'));
+    let products = cart.products;
+  
+    // Initialize variables for total quantity and price (have to be given a value before putting in loop otherwise => NaN)
+    let totalQuantity = 0;
+    let totalPrice = 0;
+  
+    // Get prices for the products in the cart
+    products = getPricesForProducts(products);
+    // Loop through each product in the cart and sum up the quantities and prices
+    products.forEach(product => {
+      totalQuantity += parseInt(product.quantity);
+      totalPrice += product.price * parseInt(product.quantity);
+    });
+  
+    // Update the HTML content of the total quantity and price elements
+    $totalQuantity.textContent = totalQuantity;
+    $totalPrice.textContent = totalPrice;
+};
+updateCartTotal();
+
+//------------------------------------CONTACT FORM-------------------------------------------------
+
+/* Retrieve user input and analyse
+Error message if needed (type of value not matching)
+Create "contact" object and [{products}] array
+-isNaN() returns true if input is not a number, false if it is a number
+Initialize variables for each input field, retrieve user input*/
+
+// Verify user input
+const verifyUserInput = (event) => {
+    event.preventDefault();
+
+    //first name
+    const firstNameInput = document.querySelector('#firstName');
+    let firstName = firstNameInput.value;
+    if (!isNaN(firstName)) {
+        alert('Merci de vérifier vos réponses');
+      } else {
+        firstName = firstNameInput.value;
+      }
+
+    //last name
+    const lastNameInput = document.querySelector('#lastName');
+    let lastName = lastNameInput.value;
+    if (!isNaN(lastName)) {
+        alert('Merci de vérifier vos réponses');
+      } else {
+        lastName = lastNameInput.value;
+      }
+
+    //address
+    const addressInput = document.querySelector('#address');
+    let address = addressInput.value;
+
+    //city
+    const cityInput = document.querySelector('#city');
+    let city = cityInput.value;
+    if (!isNaN(city)) {
+        alert('Merci de vérifier vos réponses');
+      } else {
+        city = cityInput.value;
+      }
+    
+    //email
+    const emailInput = document.querySelector('#email');
+    let email = emailInput.value;
+    //email.checkValidity();
+
+    //update contact object with input values
+    contact.firstName = firstName;
+    contact.lastName = lastName;
+    contact.address = address;
+    contact.city = city;
+    contact.email = email;
+};
+
+// Add event listener to Form (not button, because only form can be submitted)
+let form = document.querySelector('.cart__order__form');
+form.addEventListener('submit', (event) => {
+    verifyUserInput(event);
+    const products = getProductIds(cart);
+    submitOrder(contact, products);
+  });
+
+//---------------------------CREATE COMMAND-----------------------------------------------------------
+
+// Create contact object and array of productIDs.
+let contact = {
+    firstName: '',
+    lastName: '',
+    city: '',
+    address: '',
+    email: ''
+};
+
+const getProductIds = (cart) => {
+    const productIds = [];
+    cart.forEach(item => {
+        // Add the product ID to the productIds array
+        productIds.push(item._id);
+    });
+    return productIds;
+};
+
+products = getProductIds(cart);
+
+//POST - fetch API request
+const submitOrder = (contact, products) => {
+    fetch('http://localhost:3000/API/products/order', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ contact, products })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data); // add this line
+      const orderId = data.orderId;
+      console.log(orderId);
+
+      // Check if orderId is defined
+      if (orderId) {
+        // Create a new URL with orderId as parameter
+        const confirmationUrl = new URL('/front/html/confirmation.html',window.location.origin);
+        confirmationUrl.searchParams.append('orderId', orderId);
+        // Redirect to confirmation page
+        window.location.href = confirmationUrl.href;
+      } else {
+        // Handle case where orderId is not defined
+        console.error('Error: Order ID not defined');
+      }
+    });
+  };
+  submitOrder();
+
+//tests
+console.log(products, contact);
