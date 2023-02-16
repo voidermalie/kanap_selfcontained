@@ -1,8 +1,8 @@
-//get all products from API
+// Get all products from API
 import { getProducts } from "./api.js";
-const productsApi = await getProducts();
+const productsApi = await getProducts(); //productsApi = [{product}, {product}, ...]
 
-//get cart from LocalStorage
+// Get cart from LocalStorage
 const getCart = () => {
     let cart = localStorage.getItem('cart')
     if (cart === null) {
@@ -12,13 +12,7 @@ const getCart = () => {
     }
 };
 
-//We have 2 arrays = localstorage and products from API
-//cart = [{},{},{} ...]
-let cart = getCart(); 
-console.log(cart);
-//productsApi = [{product}, {product}, ...]
-console.log(productsApi);
-//how to get object.property = console.log(productsApi[0].price)
+let cart = getCart(); //cart = [{},{},{} ...]
 
 //Get price from API, update objects
 const getPricesForProducts = (products) => {
@@ -40,7 +34,7 @@ let products = getPricesForProducts(cart);
 //(products) is a property, then when we call the function later, we pass (cart) as an argument
 //well now we pass (products) again because of getpricesforproducts...
 const displayCart = (products) => {
-    let $cartItem = document.querySelector('#cart__items');
+    const $cartItem = document.querySelector('#cart__items');
     products.forEach(product => {
         /*render to HTML
         article -> 2 divs => div1=img + div2=cartItemContent
