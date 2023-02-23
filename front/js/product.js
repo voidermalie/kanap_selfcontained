@@ -15,7 +15,7 @@ const makeColorHtmlTemplate = (colors) => {
 };
 
 
-//function for rendering to html
+// Rendering to HTML
 const displayProduct = (product) => {
         //title of html page
         const $pageTitle = document.getElementsByTagName('title');

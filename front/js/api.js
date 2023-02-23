@@ -1,7 +1,7 @@
-//info to reach API
+// Info to reach API
 const indexUrl = 'http://localhost:3000/API/products/';
 
-// fetch API
+// Fetch API
 const request = async (path = '') => {
     return await fetch(indexUrl + path)
         .then(response => {
@@ -18,7 +18,7 @@ const request = async (path = '') => {
     .catch((error) => console.error("FETCH ERROR:", error));
 };
 
-//functions to get data from api
+// Functions to get data from the API
 
 //homepage
 export const getProducts = async () => {
