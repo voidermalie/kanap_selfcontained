@@ -233,60 +233,113 @@ Initialize variables for each input field, retrieve user input*/
 
 // Verify user input
 const verifyUserInput = (event) => {
-    event.preventDefault();
-    const regex = /^[a-zA-Z ]+$/;
-    //first name
-    const $firstNameInput = document.querySelector('#firstName');
-    let firstName = $firstNameInput.value;
 
-    if (!regex.test(firstName)) {
-        $firstNameInput.setCustomValidity("Veuillez vérifier votre réponse")
-        $firstNameInput.reportValidity();
+    event.preventDefault();
+
+    //Regex
+    const nameRegex = /^[a-zA-Z ]+$/;
+    const addressRegex = /^[a-zA-Z0-9\s,'-]*$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const errorMessage = "Veuillez vérifier votre réponse"
+
+    //first name
+    const $firstName = document.querySelector('#firstName');
+
+    if (!nameRegex.test($firstName.value)) {
+        $firstName.setCustomValidity(errorMessage);
+        $firstName.reportValidity();
+
+        // add event listener to clear custom validity when input is valid (after being invalid)
+        $firstName.addEventListener('input', () => {
+            if (nameRegex.test($firstName.value)) {
+                $firstName.setCustomValidity('');
+            }
+        });
         return;
     } else {
-        $firstNameInput.setCustomValidity('');
+        $firstName.setCustomValidity('');
     };
 
     //last name
-    const $lastNameInput = document.querySelector('#lastName');
-    let lastName = $lastNameInput.value;
+    const $lastName = document.querySelector('#lastName');
 
-    if (!regex.test(lastName)) {
-        $lastNameInput.setCustomValidity("Veuillez vérifier votre réponse")
-        $lastNameInput.reportValidity();
+    if (!nameRegex.test($lastName.value)) {
+        $lastName.setCustomValidity(errorMessage);
+        $lastName.reportValidity();
+        $lastName.addEventListener('input', () => {
+            if (nameRegex.test($lastName.value)) {
+                $lastName.setCustomValidity('');
+            }
+        });
         return;
     } else {
-        $lastNameInput.setCustomValidity('');
+        $lastName.setCustomValidity('');
     };
 
     //address
-    const addressInput = document.querySelector('#address');
-    let address = addressInput.value;
+    const $address = document.querySelector('#address');
+    if (!addressRegex.test($address.value)){
+        $address.setCustomValidity(errorMessage);
+        $address.reportValidity();
+        $address.addEventListener('input', () => {
+            if (addressRegex.test($address.value)) {
+                $address.setCustomValidity('');
+            }
+        });
+        return;
+    } else {
+        $address.setCustomValidity('');
+    };
 
     //city
-    const cityInput = document.querySelector('#city');
-    let city = cityInput.value;
+    const $city = document.querySelector('#city');
+    if (!nameRegex.test($city.value)) {
+        $city.setCustomValidity(errorMessage);
+        $city.reportValidity();
+        $city.addEventListener('input', () => {
+            if (nameRegex.test($city.value)) {
+                $city.setCustomValidity('');
+            }
+        });
+        return;
+    } else {
+        $city.setCustomValidity('');
+    };
     
     //email
-    const emailInput = document.querySelector('#email');
-    let email = emailInput.value;
-    //if (!email.checkValidity());
+    const $email = document.querySelector('#email');
+    if (!emailRegex.test($email.value)) {
+        $email.setCustomValidity(errorMessage);
+        $email.reportValidity();
+        $email.addEventListener('input', () => {
+            if (emailRegex.test($email.value)) {
+                $email.setCustomValidity('');
+            }
+        });
+        return;
+    } else {
+        $email.setCustomValidity('');
+    };
 
     // Update contact object with input values
-    contact.firstName = firstName;
-    contact.lastName = lastName;
-    contact.address = address;
-    contact.city = city;
-    contact.email = email;
+    contact.firstName = $firstName.value;
+    contact.lastName = $lastName.value;
+    contact.address = $address.value;
+    contact.city = $city.value;
+    contact.email = $email.value;
+
+    //Submit order
+    const products = getProductIds(cart);
+    submitOrder(contact, products);
+
+    // reset the form to clear input fields and any validation errors
+    //event.target.reset();
 };
 
 // Add event listener to Form (not button, because only form can be submitted)
-let form = document.querySelector('.cart__order__form');
-form.addEventListener('submit', (event) => {
-    verifyUserInput(event);
-    const products = getProductIds(cart);
-    submitOrder(contact, products);
-});
+let $form = document.querySelector('.cart__order__form');
+$form.addEventListener('submit', verifyUserInput);
+
 
 //---------------------------CREATE COMMAND-----------------------------------------------------------
 
