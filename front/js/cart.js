@@ -234,35 +234,30 @@ Initialize variables for each input field, retrieve user input*/
 // Verify user input
 const verifyUserInput = (event) => {
     event.preventDefault();
-    const regexNaN = /\d/;
+    const regex = /^[a-zA-Z ]+$/;
     //first name
-    const firstNameInput = document.querySelector('#firstName');
-    let firstName = firstNameInput.value;
+    const $firstNameInput = document.querySelector('#firstName');
+    let firstName = $firstNameInput.value;
 
-    if (regexNaN.test(firstName)) {
-        firstNameInput.setCustomValidity("Veuillez vérifier votre réponse")
-        firstNameInput.reportValidity();
+    if (!regex.test(firstName)) {
+        $firstNameInput.setCustomValidity("Veuillez vérifier votre réponse")
+        $firstNameInput.reportValidity();
+        return;
     } else {
-        firstNameInput.setCustomValidity('');
+        $firstNameInput.setCustomValidity('');
     };
 
-    /*
-    if (!isNaN(firstName)) {
-        setCustomValidity(message)
-        //alert('Merci de vérifier vos réponses');
-      } else {
-        firstName = firstNameInput.value;
-      }
-    */
-
     //last name
-    const lastNameInput = document.querySelector('#lastName');
-    let lastName = lastNameInput.value;
-    if (!isNaN(lastName)) {
-        alert('Merci de vérifier vos réponses');
-      } else {
-        lastName = lastNameInput.value;
-      }
+    const $lastNameInput = document.querySelector('#lastName');
+    let lastName = $lastNameInput.value;
+
+    if (!regex.test(lastName)) {
+        $lastNameInput.setCustomValidity("Veuillez vérifier votre réponse")
+        $lastNameInput.reportValidity();
+        return;
+    } else {
+        $lastNameInput.setCustomValidity('');
+    };
 
     //address
     const addressInput = document.querySelector('#address');
@@ -271,11 +266,6 @@ const verifyUserInput = (event) => {
     //city
     const cityInput = document.querySelector('#city');
     let city = cityInput.value;
-    if (!isNaN(city)) {
-        alert('Merci de vérifier vos réponses');
-      } else {
-        city = cityInput.value;
-      }
     
     //email
     const emailInput = document.querySelector('#email');
