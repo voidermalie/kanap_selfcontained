@@ -2,15 +2,17 @@ import { getProducts } from "./api.js";
 const products = await getProducts();
 
 
-//function for rendering to html (a,article,h3,img,p)
-const displayProducts = (data) => {
+// Render each product as HTML (a,article,h3,img,p)
+const displayProducts = (products) => {
     const $productDiv = document.getElementById('items');
-    data.forEach(product => {
+    products.forEach(product => {
         //link
         const $a = document.createElement('a');
-        $a.href = 'http://127.0.0.1:5500/front/html/product.html?id=' + product._id;
+        const productLink = `${window.location.origin}/front/html/product.html?id=${product._id}`;
+        $a.href = productLink;
+        //$a.href = 'http://127.0.0.1:5500/front/html/product.html?id=' + product._id;
         $productDiv.appendChild($a);
-        //article (card)
+        //article
         const $article = document.createElement('article')
         $a.appendChild($article);
         //title

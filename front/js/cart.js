@@ -120,6 +120,7 @@ displayCart(products);
 //----------------------------------CHANGE QUANTITY-----------------------------------------------
 
 const updateQuantity = (event) => {
+    event.preventDefault();
     let $input = event.target;
 
     //Get ID of product to be updated. Access the 'data-id' attribute of the input field's parent element
@@ -150,8 +151,12 @@ const updateQuantity = (event) => {
     if (updatedQuantity > 0 && updatedQuantity <= 100) {
         updateCartTotal();
     } else {
-        setCustomValidity(message)
-        //alert('La quantité devrait être entre 0 et 100');
+        alert("Veuillez sélectionner une valeur entre 0 et 100")
+        /*
+        const errorMessage = "La quantité devrait être entre 0 et 100";
+        $input.setCustomValidity(errorMessage);
+        $input.reportValidity();
+        */
     }
 };
 

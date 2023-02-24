@@ -1,33 +1,33 @@
-// Info to reach API
-const indexUrl = 'http://localhost:3000/API/products/';
+// Base URL to reach API
+const apiUrl = 'http://localhost:3000/API/products/';
 
 // Fetch API
 const request = async (path = '') => {
-    return await fetch(indexUrl + path)
+    return await fetch(apiUrl + path)                    //fetch method
         .then(response => {
-            if (response.ok) {
-                return response.json();
+            if (response.ok) {                           //vérifier HTTP OK (200)
+                return response.json();                  //récupère les données au format json
             } else {
                 throw new Error ('Request failed!');
             }
-    })
-    .then(data => {
-        //console.log(data);
-        return data;
-    })
-    .catch((error) => console.error("FETCH ERROR:", error));
+        })
+        .then(data => {                                  //convertit le json en objet JS
+            return data;  //console.log(data);
+        })
+        .catch((error) => console.error("FETCH ERROR:", error));
 };
 
-// Functions to get data from the API
+// Functions to get products from the API
 
-//homepage
+// index => fetching all products
 export const getProducts = async () => {
     return await request();
 };
 
-//product page
+// product page => fetching a single product from the API based on the 'id' query parameter)
+//this happens when url is already generated in index.js
 export const getProduct = async () => {
-    let params = new URL(document.location).searchParams;
-    let id = params.get('id');
+    const params = new URL(document.location).searchParams;
+    const id = params.get('id');
     return await request(id);
 };
