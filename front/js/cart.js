@@ -139,16 +139,10 @@ const updateQuantity = (event) => {
 
     //Find product in cart and update its quantity - check for both id and color
     let existingProduct = products.find(product => product._id === itemId && product.color === itemColor);
-    if (existingProduct) {
+    if (existingProduct && updatedQuantity > 0 && updatedQuantity <= 100) {
         existingProduct.quantity = updatedQuantity;
-    };
-
-    //Update the products array in the cart
-    cart.products = products;
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    //Update the total quantity and price if value is between 1 and 100
-    if (updatedQuantity > 0 && updatedQuantity <= 100) {
+        cart.products = products;
+        localStorage.setItem('cart', JSON.stringify(cart));
         updateCartTotal();
     } else {
         alert("Veuillez sélectionner une valeur entre 0 et 100")
@@ -162,13 +156,14 @@ const updateQuantity = (event) => {
 
 // Add event listener to each input field
 const $itemQuantity = document.querySelectorAll('.itemQuantity');
+
 $itemQuantity.forEach(input => {
     input.addEventListener('change', updateQuantity);
 });
 
 
 //--------------------------------------REMOVE ITEM-----------------------------------------------
-//Function to delete item from cart and to delete item's HTML      
+// Function to delete item from cart and to delete item's HTML      
 const removeItem = (event) => {
     let deleteBtn = event.target;
     const idToRemove = deleteBtn.closest('article');
@@ -191,7 +186,7 @@ const removeItem = (event) => {
     updateCartTotal();
 };
 
-//Add event listener to each Delete button
+// Add event listener to each Delete button
 const $deleteBtn = document.querySelectorAll('.deleteItem');
 
 $deleteBtn.forEach(button => {
@@ -241,13 +236,13 @@ const verifyUserInput = (event) => {
 
     event.preventDefault();
 
-    //Regex
+    // Regexes
     const nameRegex = /^[a-zA-Z ]+$/;
     const addressRegex = /^[a-zA-Z0-9\s,'-]*$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const errorMessage = "Veuillez vérifier votre réponse"
 
-    //first name
+    // First name
     const $firstName = document.querySelector('#firstName');
 
     if (!nameRegex.test($firstName.value)) {
@@ -265,7 +260,7 @@ const verifyUserInput = (event) => {
         $firstName.setCustomValidity('');
     };
 
-    //last name
+    // Last name
     const $lastName = document.querySelector('#lastName');
 
     if (!nameRegex.test($lastName.value)) {
@@ -281,7 +276,7 @@ const verifyUserInput = (event) => {
         $lastName.setCustomValidity('');
     };
 
-    //address
+    // Address
     const $address = document.querySelector('#address');
     if (!addressRegex.test($address.value)){
         $address.setCustomValidity(errorMessage);
@@ -296,7 +291,7 @@ const verifyUserInput = (event) => {
         $address.setCustomValidity('');
     };
 
-    //city
+    // City
     const $city = document.querySelector('#city');
     if (!nameRegex.test($city.value)) {
         $city.setCustomValidity(errorMessage);
@@ -311,7 +306,7 @@ const verifyUserInput = (event) => {
         $city.setCustomValidity('');
     };
     
-    //email
+    // Email
     const $email = document.querySelector('#email');
     if (!emailRegex.test($email.value)) {
         $email.setCustomValidity(errorMessage);
@@ -333,7 +328,7 @@ const verifyUserInput = (event) => {
     contact.city = $city.value;
     contact.email = $email.value;
 
-    //Submit order
+    // Submit order
     const products = getProductIds(cart);
     submitOrder(contact, products);
 
@@ -368,7 +363,7 @@ const getProductIds = (cart) => {
 };
 
 
-// update products (so they only contain id)
+// Update products (so they only contain id)
 products = getProductIds(cart);
 
 //POST - fetch API request
