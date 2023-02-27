@@ -8,16 +8,18 @@ const request = async (path = '') => {
             if (response.ok) {                           //vérifier HTTP OK (200)
                 return response.json();                  //récupère les données au format json
             } else {
-                throw new Error ('Request failed!');
+                throw new Error (response.status);
             }
         })
         .then(data => {                                  //convertit le json en objet JS
             return data;  //console.log(data);
         })
-        .catch((error) => console.error("FETCH ERROR:", error));
-};
+        .catch((error) => {
+            console.error("FETCH ERROR:", error);
+            throw error;
+})};
 
-// Functions to get products from the API
+// Functions to get products from the fetched API
 
 // index => fetching all products
 export const getProducts = async () => {
@@ -25,7 +27,7 @@ export const getProducts = async () => {
 };
 
 // product page => fetching a single product from the API based on the 'id' query parameter)
-//this happens when url is already generated in index.js
+// this works because url is already generated via displayProduct() in index.js
 export const getProduct = async () => {
     const params = new URL(document.location).searchParams;
     const id = params.get('id');

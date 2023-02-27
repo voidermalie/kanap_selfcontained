@@ -22,14 +22,15 @@ const makeColorHtmlTemplate = (colors) => {
 const displayProduct = (product) => {
         // Set the page title to the name of the product
         const $pageTitle = document.getElementsByTagName('title');
-        $pageTitle[0].textContent = product.name;
+        $pageTitle[0].textContent = product.name; 
+        //getElementsByTagName returns a collection of result so index is needed (querySelector would work without index)
 
         // Add the product image to the page
         const $imageContainer = document.getElementsByClassName('item__img');
         const $img = document.createElement('img');
         $imageContainer[0].appendChild($img);
         $img.src = product.imageUrl;
-        $img.alt = product.altTxt;        
+        $img.alt = product.altTxt;      
 
         // Set the product price on the page
         const $price = document.getElementById('price');
@@ -40,9 +41,9 @@ const displayProduct = (product) => {
         $description.textContent = product.description;
 
         // Create HTML option elements for each color and add them to the color select element
-        const colorContainer = document.getElementById('colors');
-        //const colorOptions = product.colors;
-        /*
+        /*rip first working color function:
+        const $colorContainer = document.getElementById('colors');
+        const colorOptions = product.colors;
         const getColors = (colors) => {
                 colors.forEach(color => {
                         const colorOption = document.createElement('option');
@@ -96,8 +97,8 @@ const handleClick = (event) => {
 };
 
 // Get the "Add to Cart" button and add a click event listener
-const addToCartBtn = document.querySelector('#addToCart');
-addToCartBtn.addEventListener('click', handleClick);
+const $addToCartBtn = document.querySelector('#addToCart');
+$addToCartBtn.addEventListener('click', handleClick);
 
 //----------------LOCALSTORAGE---------------------------------------------------------------
 
@@ -128,9 +129,10 @@ const addItemToCart = (productOption) => {
                         products.push(productOption); // Add the selected product to the list of products
                 };
                 cart = {'products': products};  // products = [...] Create a new cart object with the updated list of products
+
         } else { // If the cart does not exist
                 cart = {'products':[productOption]}; // Create a new cart object with the selected product as the only product
-};
+        };
         // Update the cart in local storage with the new cart object
-        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cart', JSON.stringify(cart)); 
 };

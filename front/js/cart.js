@@ -107,7 +107,7 @@ const displayCart = (products) => {
         $deleteItem.textContent = "Supprimer";
         $deleteDiv.appendChild($deleteItem);
         //pour update le DOM une fois que tout est modifié
-        $cartItem.appendChild($article);
+        $cartItem.appendChild($article); 
     });
 };
 
@@ -298,7 +298,7 @@ const verifyUserInput = (event) => {
         $city.reportValidity();
         $city.addEventListener('input', () => {
             if (nameRegex.test($city.value)) {
-                $city.setCustomValidity('');
+                $city.setCustomValidity(''); 
             }
         });
         return;
