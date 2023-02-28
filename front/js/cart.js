@@ -326,7 +326,7 @@ const verifyUserInput = (event) => {
     contact.lastName = $lastName.value;
     contact.address = $address.value;
     contact.city = $city.value;
-    contact.email = $email.value;
+    contact.email = $email.value; 
 
     // Submit order
     const products = getProductIds(cart);
@@ -373,10 +373,10 @@ const submitOrder = (contact, products) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ contact, products }) //send object to back end to get an orderId
+      body: JSON.stringify({ contact, products }) //send object to back end
     })
-    .then(response => response.json())
-    .then(data => {
+    .then(response => response.json()) //response in json
+    .then(data => {                    //data=parameter=json response to be converted to JS object
       //console.log(data);
       const orderId = data.orderId;
       //console.log(orderId);
@@ -391,6 +391,7 @@ const submitOrder = (contact, products) => {
         confirmationUrl.searchParams.append('orderId', orderId);
         // Redirect to confirmation page
         window.location.href = confirmationUrl.href;
+        localStorage.clear();
       } else {
         // Handle case where orderId is not defined
         console.error('Error: Order ID not defined');

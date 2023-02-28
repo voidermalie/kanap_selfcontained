@@ -104,7 +104,7 @@ $addToCartBtn.addEventListener('click', handleClick);
 
 // Add a product to the cart in local storage
 const addItemToCart = (productOption) => {
-        //test: console.log("Produit: ", productOption);
+        //test: console.log("product": productOption);
         let cart = localStorage.getItem('cart'); // Get the current cart from local storage
 
         if (cart) { // If the cart already exists

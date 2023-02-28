@@ -6,7 +6,7 @@ const request = async (path = '') => {
     return await fetch(apiUrl + path)                    //fetch method
         .then(response => {
             if (response.ok) {                           //vérifier HTTP OK (200)
-                return response.json();                  //récupère les données au format json
+                return response.json();                //récupère les données au format json
             } else {
                 throw new Error (response.status);
             }
