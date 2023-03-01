@@ -8,7 +8,7 @@ const displayProducts = (products) => {
     products.forEach(product => {
         //link
         const $a = document.createElement('a');
-        const productLink = `${window.location.origin}/front/html/product.html?id=${product._id}`;
+        const productLink = `./product.html?id=${product._id}`;
         $a.href = productLink;
         //$a.href = 'http://127.0.0.1:5500/front/html/product.html?id=' + product._id;
         $productDiv.appendChild($a);
