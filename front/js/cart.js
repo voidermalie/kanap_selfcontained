@@ -387,7 +387,7 @@ const submitOrder = (contact, products) => {
         /*URL = constructor
         takes two arguments: 'url' and 'baseURL'
         */
-        const confirmationUrl = new URL('./html/confirmation.html', window.location.origin);
+        const confirmationUrl = new URL('./confirmation.html', window.location.origin);
         confirmationUrl.searchParams.append('orderId', orderId);
         // Redirect to confirmation page
         window.location.href = confirmationUrl.href;
