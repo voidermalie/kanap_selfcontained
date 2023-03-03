@@ -387,10 +387,11 @@ const submitOrder = (contact, products) => {
         /*URL = constructor
         takes two arguments: 'url' and 'baseURL'
         */
-        const confirmationUrl = new URL('./confirmation.html', window.location.origin);
-        confirmationUrl.searchParams.append('orderId', orderId);
+        //const confirmationUrl = new URL('./confirmation.html', window.location.origin);
+        //confirmationUrl.searchParams.append('orderId', orderId);
         // Redirect to confirmation page
-        window.location.href = confirmationUrl.href;
+        //window.location.href = confirmationUrl.href;
+        window.location.href = `./confirmation.html?orderId=${orderId}`;
         localStorage.clear();
       } else {
         // Handle case where orderId is not defined
