@@ -1,5 +1,6 @@
 // Base URL to reach API
-const apiUrl = 'http://localhost:3000/API/products/';
+//const apiUrl = 'http://localhost:3000/API/products/';
+const apiUrl = 'https://kanap-gamma.vercel.app/API/products/';
 
 // Fetch API
 const request = async (path = '') => {
