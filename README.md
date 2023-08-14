@@ -1,11 +1,12 @@
-# Hello
-This repo is the back-end for the [kanap e-commerce website](https://kanap-front-eta.vercel.app/).
+# Hello 🛍️
 
-Originally hosted on Heroku, I suspended the deployment since, but might deploy it again in the future.
+## 🛒Overview:
+Originally, this project was designed to interface with a genuine API and back-end code provided by my academic institution. To showcase its capabilities, I initially deployed the back-end on Heroku.
 
-Until then, you can check out a Video:
+## 🛒Current Version:
+In order to make the project more self-contained and easily accessible for demonstration purposes, I have since suspended the Heroku deployment. The data, which was previously fetched from the API, is now integrated directly into the front-end as a JSON file. Additionally, the order simulation, which was once processed on the back-end using the uuid package, has been re-implemented as a front-end function.
 
-## Features
+## 🛒Features
     - Developed entirely in vanilla JavaScript
     - Integrated dynamic product fetching from an API
     - Performed advanced DOM manipulation for product display
@@ -17,3 +18,4 @@ Until then, you can check out a Video:
 ## 💟 Contact
 
 If you have any questions or feedback, feel free to reach out to me by [mail](fannylestar@icloud.com) or message me on [LinkedIn](www.linkedin.com/in/fannilestar). Thanks for stopping by! 
+
