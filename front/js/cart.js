@@ -1,3 +1,6 @@
+//simulating uuidv package from previous backend
+import { uuidv4 } from '../utils.js';
+
 // Get all products from API
 import { getProducts } from "./api.js";
 const productsApi = await getProducts(); //productsApi = [{product}, {product}, ...]
@@ -328,12 +331,8 @@ const verifyUserInput = (event) => {
     contact.city = $city.value;
     contact.email = $email.value; 
 
-    // Submit order
-    const products = getProductIds(cart);
     submitOrder(contact, products);
 
-    // reset the form to clear input fields and any validation errors
-    //event.target.reset();
 };
 
 // Add event listener to Form (not button, because only form can be submitted)
@@ -366,9 +365,26 @@ const getProductIds = (cart) => {
 // Update products (so they only contain id)
 products = getProductIds(cart);
 
-//POST - fetch API request
+// Simulating order (refactored code to not depend on back-end):
 const submitOrder = (contact, products) => {
-    fetch('http://localhost:3000/API/products/order', {
+    // Directly generate the order ID using the UUID function
+    const orderId = uuidv4();
+
+    // Check if orderId is defined
+    if (orderId) {
+        // Redirect to confirmation page
+        window.location.href = `./confirmation.html?orderId=${orderId}`;
+        localStorage.clear();
+    } else {
+        // Handle case where orderId is not defined
+        console.error('Error: Order ID not defined');
+    }
+};
+
+/* Before via back-end (POST - fetch API request):
+const submitOrder = (contact, products) => {
+    //fetch('http://localhost:3000/API/products/order', {
+        fetch('https://kanap-ecommerce-4c0b44382866.herokuapp.com/API/products/order', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -384,9 +400,7 @@ const submitOrder = (contact, products) => {
       // Check if orderId is defined
       if (orderId) {
         // Create a new URL with orderId as parameter
-        /*URL = constructor
-        takes two arguments: 'url' and 'baseURL'
-        */
+        //URL = constructor takes two arguments: 'url' and 'baseURL'
         //const confirmationUrl = new URL('./confirmation.html', window.location.origin);
         //confirmationUrl.searchParams.append('orderId', orderId);
         // Redirect to confirmation page
@@ -400,5 +414,6 @@ const submitOrder = (contact, products) => {
     });
   };
   submitOrder();
+*/
 //tests
 //console.log(products, contact);

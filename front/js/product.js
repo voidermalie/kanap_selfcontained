@@ -1,6 +1,9 @@
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id');
+
 // Import getProduct function to retrieve the product data
 import { getProduct } from "./api.js";
-const product = await getProduct();
+const product = await getProduct(productId);
 
 
 /*Create HTML element for each color option
