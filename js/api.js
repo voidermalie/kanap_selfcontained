@@ -1,4 +1,7 @@
-const PRODUCTS_URL =  "../api.json";
+//const PRODUCTS_URL =  "../api.json";
+//url for gh pages:
+const PRODUCTS_URL =  "/kanap_selfcontained/api.json";
+
 
 export const getProducts = async () => {
     const response = await fetch(PRODUCTS_URL);
