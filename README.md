@@ -1,7 +1,7 @@
 # Hello 🛍️
 
 ## 🛒Overview:
-Originally, this project was designed to interface with a genuine API and back-end code provided by my institution. To showcase its capabilities, I initially deployed the back-end on Heroku.
+Originally, [this](https://voidermalie.github.io/kanap_selfcontained) project was designed to interface with a genuine API and back-end code provided by my institution. To showcase its capabilities, I initially deployed the back-end on Heroku.
 
 ## 🛒Current Version:
 In order to make the project more self-contained and easily accessible for demonstration purposes, I have since suspended the Heroku deployment. The data, which was previously fetched from the API, is now integrated directly into the front-end as a JSON file. Additionally, the order simulation, which was once processed on the back-end using the uuid package, has been re-implemented as a front-end function.
